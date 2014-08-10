@@ -18,7 +18,7 @@ module DMM
     def process(noop: false)
       fetch
       result = choose do |menu|
-        menu.prompt = "Select candidates."
+        menu.prompt = "Select candidates. original: #{@filename}"
         @last_response.items.uniq {|i| i.title}.each do |item|
           menu.choice(rename_pattern(item))
         end
@@ -54,7 +54,9 @@ module DMM
 
     def rename_pattern(item)
       raise "rename_pattern is not found" unless @config["rename_pattern"]
-      eval("\"" + @config["rename_pattern"] + "\"") + extname
+      eval("\"" + @config["rename_pattern"] + "\"")
+        .gsub(/\//, "／")
+        .gsub(/〜/, "～") + extname
     end
 
     def normalize_filename
@@ -70,7 +72,7 @@ module DMM
     end
 
     def extname
-      File.extname(@filename)
+      File.extname(@filename).downcase
     end
 
     def convert_charset(str)
