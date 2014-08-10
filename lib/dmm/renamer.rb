@@ -5,6 +5,7 @@ require 'fileutils'
 module DMM
   class Renamer
     def initialize(config, filename)
+      @config = config
       @client = DMM.new(
         api_id: config["api_id"],
         affiliate_id: config["affiliate_id"],
@@ -52,7 +53,8 @@ module DMM
     end
 
     def rename_pattern(item)
-      "(AV) [#{item.info.maker[0]["name"]}] #{item.title} - #{item.info.actress.map {|act| act["name"]}.join(" ")}#{extname}"
+      raise "rename_pattern is not found" unless @config["rename_pattern"]
+      eval("\"" + @config["rename_pattern"] + "\"") + extname
     end
 
     def normalize_filename
