@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'dmm/renamer'
+require 'yaml'
+require 'slop'
+
+opts = Slop.parse! do
+  banner 'Usage: dmm-renamer [options] filename[, filename]'
+
+  on 'c', 'config=', 'default: ~/.dmm_config.yml', argument: :optional
+  on 'n', 'noop'
+  on 'h', 'help'
+end
+
+if opts.help?
+  puts opts.help
+else
+  config = YAML.load_file(File.expand_path(opts[:config] || "~/.dmm_config.yml", __FILE__))
+
+  ARGV.each do |arg|
+    filename = arg.dup
+    renamer = DMM::Renamer.new(config, filename)
+    renamer.process(noop: opts.noop?)
+  end
+end
