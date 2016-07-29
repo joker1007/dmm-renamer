@@ -19,7 +19,7 @@ module DMM
       fetch
       result = choose do |menu|
         menu.prompt = "Select candidates. original: #{@filename}"
-        @last_response.items.uniq {|i| i.title}.each do |item|
+        items.uniq {|i| i.title}.each do |item|
           menu.choice(rename_pattern(item))
         end
         menu.choice("No Rename") { nil }
@@ -42,8 +42,8 @@ module DMM
     end
 
     def fetch
-      @last_response = @client.order("date").limit(10).item_list(normalize_filename)
-      if @last_response.items.empty?
+      @last_response = @client.product(site: "DMM.R18", sort: "rank", keyword: normalize_filename, hits: 10)
+      if !items || items.empty?
         fetch_retry
       end
     end
@@ -77,6 +77,10 @@ module DMM
 
     def convert_charset(str)
       RUBY_PLATFORM =~ /darwin/ ? str.encode('UTF-8-MAC', 'UTF-8') : str
+    end
+
+    def items
+      @last_response&.result&.[](:items)
     end
   end
 end

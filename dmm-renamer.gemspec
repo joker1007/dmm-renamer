@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "ruby-dmm"
-  spec.add_runtime_dependency "slop"
+  spec.add_runtime_dependency "slop", "< 4"
   spec.add_runtime_dependency "highline"
 
   spec.add_development_dependency "bundler", "~> 1.6"
