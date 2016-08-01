@@ -19,7 +19,7 @@ module DMM
       fetch
       result = choose do |menu|
         menu.prompt = "Select candidates. original: #{@filename}"
-        items.uniq {|i| i.title}.each do |item|
+        items.uniq {|i| i[:title]}.each do |item|
           menu.choice(rename_pattern(item))
         end
         menu.choice("No Rename") { nil }
@@ -49,7 +49,7 @@ module DMM
     end
 
     def fetch_retry
-      @last_response = @client.order("date").limit(10).item_list(more_normalize_filename)
+      @last_response = @client.product(site: "DMM.R18", sort: "rank", keyword: normalize_filename, hits: 10)
     end
 
     def rename_pattern(item)
