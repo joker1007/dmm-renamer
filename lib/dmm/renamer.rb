@@ -35,7 +35,7 @@ module DMM
     def rename(to, noop)
       dir = File.dirname(@filename)
       if File.exist?(@filename)
-        FileUtils.mv(@filename, File.join(dir, to), {noop: noop, verbose: true})
+        FileUtils.mv(@filename, File.join(dir, to), noop: noop, verbose: true)
       else
         warn "#{@filename} is not found"
       end
