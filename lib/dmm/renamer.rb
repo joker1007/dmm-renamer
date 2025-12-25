@@ -42,14 +42,14 @@ module DMM
     end
 
     def fetch
-      @last_response = @client.product(site: "DMM.R18", sort: "rank", keyword: normalize_filename, hits: 10)
+      @last_response = @client.product(site: "FANZA", sort: "rank", keyword: normalize_filename, hits: 10)
       if !items || items.empty?
         fetch_retry
       end
     end
 
     def fetch_retry
-      @last_response = @client.product(site: "DMM.R18", sort: "rank", keyword: normalize_filename, hits: 10)
+      @last_response = @client.product(site: "FANZA", sort: "rank", keyword: normalize_filename, hits: 10)
     end
 
     def rename_pattern(item)
